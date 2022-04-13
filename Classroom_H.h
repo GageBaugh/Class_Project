@@ -1,6 +1,9 @@
 #ifndef Classroom_H
 #define Classroom_H
+#include "LinkedList_H.h"
 #include<string>
+#include<fstream>
+#include<sstream>
 
 using namespace std;
 
@@ -54,12 +57,49 @@ public:
 	//		building has a value
 	//post: building is returned
 
+	void addCourse(string course_);
+	//function: add a course id to the courses class
+	//pre:	class is initialized
+	//		courses is initialized
+	//post: a value is added to courses
+
+	void removeCourse(string course_);
+	//function: removes a course id from the courses class
+	//pre:	class is initialized
+	//		courses is initialized
+	//		the value is in courses
+	//post: value is removed from courses
+
+	LinkedList<string> getCourses();
+	//function: returns the LinkedList class courses
+	//pre:	class is initialized
+	//		courses is initialized
+	//post: courses is returned
+
+	void storeClass();
+	//function: stores class in a text file
+	//pre:	class is initialized
+	//post: the values are stored in a text file
+
+	void extractClass(string classroomID_);
+	//function: extract values from a text file
+	//pre:	class is initialized
+	//		file exists
+	//post: the values relating to the id are stored in this class
+	
+	void deleteClass(string classroomID_);
+	//function: deletes a class stored in a text file
+	//pre:	class is initialized
+	//		file exists
+	//post: the classes is removed from the text file
 
 private:
 	string classroomID;
 	int classroomCap;
 	string classroomType;
+	LinkedList<string> classroomCourses;
 	string building;
+	string textFile;
 
 };
 

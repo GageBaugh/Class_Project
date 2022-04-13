@@ -8,6 +8,7 @@ Professor::Professor()
 	profName = "";
 	profID = "";
 	lunchTime = -1;
+	textFile = "Professors.txt";
 }
 
 Professor::~Professor()
@@ -46,7 +47,7 @@ string Professor::getProfID()
 	return profID;
 }
 
-LinkedList Professor::getExpertise()
+LinkedList<string>Professor::getExpertise()
 {
 	return expertise;
 }
@@ -65,3 +66,107 @@ void Professor::removeExpertise(string expertise_)
 {
 	expertise.remove(expertise_);
 }
+
+void Professor::addCourse(string course_)
+{
+	professorCourses.insert(course_);
+}
+
+void Professor::removeCourse(string course_)
+{
+	professorCourses.remove(course_);
+}
+
+LinkedList<string> Professor::getCourses()
+{
+	return professorCourses;
+}
+
+void Professor::storeClass()
+{
+	ifstream inFile;
+	inFile.open(textFile);
+	stringstream oldData;
+	oldData << inFile.rdbuf();
+	inFile.close();
+
+	ofstream outFile;
+	outFile.open(textFile);
+
+	outFile << oldData.str();
+	outFile << getProfID() << endl;
+	outFile << getProfID() << " " << getProfName() << endl;
+	outFile << getProfID() << " " << getLunchTime() << endl << getProfID() << " ";
+
+	int length = expertise.getSize();
+	for (int i = 1; i <= length; i++)
+	{
+		outFile << expertise.getItem(i) << "|";
+	}
+
+	outFile << endl << getProfID() << " ";
+
+	length = professorCourses.getSize();
+	for (int i = 1; i <= length; i++)
+	{
+		outFile << professorCourses.getItem(i) << "|";
+	}
+
+	outFile << endl;
+
+	outFile.close();
+};
+
+void Professor::extractClass(string professorID_)
+{
+	ifstream inFile;
+	inFile.open(textFile);
+	string line;
+	int profIDLen;
+
+	do
+	{
+		getline(inFile, line);
+		if (line == "")
+		{
+			cout << "ID does not exist";
+			return;
+		}
+	} while (line != professorID_);
+
+	setProfID(line);
+	profIDLen = getProfID().length() + 1;
+	getline(inFile, line);
+	line.erase(0, profIDLen);
+	setProfName(line);
+	getline(inFile, line);
+	line.erase(0, profIDLen);
+	setLunchTime(stoi(line));
+	getline(inFile, line);
+	line.erase(0, profIDLen);
+
+	expertise.emptyList();
+
+	string temp;
+	stringstream  expertiseStream(line);
+
+	while (getline(expertiseStream, temp, '|'))
+	{
+		addExpertise(temp);
+	}
+
+	professorCourses.emptyList();
+
+	getline(inFile, line);
+	line.erase(0, profIDLen);
+
+	stringstream  courseStream(line);
+
+	while (getline(courseStream, temp, '|'))
+	{
+		addCourse(temp);
+	}
+
+	inFile.close();
+}
+
