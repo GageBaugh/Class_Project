@@ -144,5 +144,22 @@ void Classroom::extractClass(string classroomID_)
 
 void Classroom::deleteClass(string classroomID_)
 {
+	ifstream inFile;
+	ofstream outFile;
+	inFile.open(textFile);
+	outFile.open("temp.txt");
+	string line;
 
+	while (getline(inFile, line))
+	{
+		if (line.find(classroomID_) != 0)
+			outFile << line << endl;
+	}
+
+	inFile.close();
+	outFile.close();
+
+	const char* t = textFile.c_str();
+	remove(t);
+	rename("temp.txt", t);
 }
