@@ -94,6 +94,17 @@ public:
 	//pre:	class is initialized
 	//post: the values relating to the id are stored in this class
 
+	void deleteClass(string profID_);
+	//function: deletes a class stored in a text file
+	//pre:	class is initialized
+	//		file exists
+	//post: the classes is removed from the text file
+
+	void userInputData();
+	//function: adds values to the class' variablesS based on user input
+	//pre:	class is initialized
+	//post:	the class has values assigned to its variables
+
 private:
 	string profName;
 	string profID;

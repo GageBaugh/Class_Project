@@ -93,6 +93,11 @@ public:
 	//		file exists
 	//post: the classes is removed from the text file
 
+	void userInputData();
+	//function: adds values to the class' variablesS based on user input
+	//pre:	class is initialized
+	//post:	the class has values assigned to its variables
+
 private:
 	string classroomID;
 	int classroomCap;

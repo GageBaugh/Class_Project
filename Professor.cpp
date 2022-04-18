@@ -170,3 +170,72 @@ void Professor::extractClass(string professorID_)
 	inFile.close();
 }
 
+void Professor::deleteClass(string profID_)
+{
+	ifstream inFile;
+	ofstream outFile;
+	inFile.open(textFile);
+	outFile.open("temp.txt");
+	string line;
+
+	while (getline(inFile, line))
+	{
+		if (line.find(profID_) != 0)
+			outFile << line << endl;
+	}
+
+	inFile.close();
+	outFile.close();
+
+	const char* t = textFile.c_str();
+	remove(t);
+	rename("temp.txt", t);
+}
+
+void Professor::userInputData()
+{
+	string input;
+	cout << "Input the professor's ID: " << endl;
+	getline(cin, input);
+	setProfID(input);
+
+	cout << "Input professor's name: " << endl;
+	getline(cin, input);
+	setProfName(input);
+
+	bool error = false;
+	do
+	{
+		;
+		error = false;
+		cout << "Input the professor's lunch time input -1 if you want it left empty: " << endl;
+		getline(cin, input);
+		try
+		{
+			stoi(input);
+		}
+		catch (invalid_argument& e)
+		{
+			cout << "Error input not a number" << endl;
+			error = true;
+			continue;
+		}
+		if (stoi(input) != -1 || stoi(input) < 0 && stoi(input) > 2400)
+		{
+			cout << "Error lunch time must be between 0 and 2400" << endl;
+			error = true;
+		}
+
+	} while (error == true);
+	if(stoi(input) != -1)
+		setLunchTime(stoi(input));
+	
+	do
+	{
+		cout << "Input the professor's expertise one at a time and type q to quit: " << endl;
+		getline(cin, input);
+		if(input != "q")
+			addExpertise(input);
+	} while (input != "q");
+}
+

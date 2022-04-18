@@ -163,3 +163,38 @@ void Classroom::deleteClass(string classroomID_)
 	remove(t);
 	rename("temp.txt", t);
 }
+
+void Classroom::userInputData()
+{
+	string input;
+	cout << "Input the classroom ID: " << endl;
+	getline(cin, input);
+	setClassroomID(input);
+
+	cout << "Input the building the classroom is located in: " << endl;
+	getline(cin, input);
+	setBuilding(input);
+
+	bool error = false;
+	do
+	{;
+		error = false;
+		cout << "Input the classrooms max capacity: " << endl;
+		getline(cin, input);
+		try
+		{
+			stoi(input);
+		}
+		catch (invalid_argument& e)
+		{
+			cout << "Error input not a number" << endl;
+			error = true;
+		}
+	} while (error == true);
+	setClassroomCap(stoi(input));
+
+	cout << "Input the classroom's type: " << endl;
+	getline(cin, input);
+	setClassroomType(input);
+
+}
