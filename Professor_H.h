@@ -105,6 +105,11 @@ public:
 	//pre:	class is initialized
 	//post:	the class has values assigned to its variables
 
+	void printClassData();
+	//function: prints out all stored professors
+	//pre:	class is initialized
+	//post:	all the stored classrooms data is printed to the screen
+
 private:
 	string profName;
 	string profID;

@@ -94,9 +94,14 @@ public:
 	//post: the classes is removed from the text file
 
 	void userInputData();
-	//function: adds values to the class' variablesS based on user input
+	//function: adds values to the class' variables based on user input
 	//pre:	class is initialized
 	//post:	the class has values assigned to its variables
+
+	void printClassData();
+	//function: prints out all stored classrooms
+	//pre:	class is initialized
+	//post:	all the stored classrooms data is printed to the screen
 
 private:
 	string classroomID;

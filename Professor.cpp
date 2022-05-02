@@ -84,37 +84,43 @@ LinkedList<string> Professor::getCourses()
 
 void Professor::storeClass()
 {
-	ifstream inFile;
-	inFile.open(textFile);
-	stringstream oldData;
-	oldData << inFile.rdbuf();
-	inFile.close();
-
-	ofstream outFile;
-	outFile.open(textFile);
-
-	outFile << oldData.str();
-	outFile << getProfID() << endl;
-	outFile << getProfID() << " " << getProfName() << endl;
-	outFile << getProfID() << " " << getLunchTime() << endl << getProfID() << " ";
-
-	int length = expertise.getSize();
-	for (int i = 1; i <= length; i++)
+	if (profID != "")
 	{
-		outFile << expertise.getItem(i) << "|";
+		deleteClass(profID);
+		ifstream inFile;
+		inFile.open(textFile);
+		stringstream oldData;
+		oldData << inFile.rdbuf();
+		inFile.close();
+
+		ofstream outFile;
+		outFile.open(textFile);
+
+		outFile << oldData.str();
+		outFile << getProfID() << endl;
+		outFile << getProfID() << " " << getProfName() << endl;
+		outFile << getProfID() << " " << getLunchTime() << endl << getProfID() << " ";
+
+		int length = expertise.getSize();
+		for (int i = 1; i <= length; i++)
+		{
+			outFile << expertise.getItem(i) << "|";
+		}
+
+		outFile << endl << getProfID() << " ";
+
+		length = professorCourses.getSize();
+		for (int i = 1; i <= length; i++)
+		{
+			outFile << professorCourses.getItem(i) << "|";
+		}
+
+		outFile << endl;
+
+		outFile.close();
 	}
-
-	outFile << endl << getProfID() << " ";
-
-	length = professorCourses.getSize();
-	for (int i = 1; i <= length; i++)
-	{
-		outFile << professorCourses.getItem(i) << "|";
-	}
-
-	outFile << endl;
-
-	outFile.close();
+	else
+		cout << "Error class has no id" << endl;
 };
 
 void Professor::extractClass(string professorID_)
@@ -141,7 +147,8 @@ void Professor::extractClass(string professorID_)
 	setProfName(line);
 	getline(inFile, line);
 	line.erase(0, profIDLen);
-	setLunchTime(stoi(line));
+	if(line != "-1")
+		setLunchTime(stoi(line));
 	getline(inFile, line);
 	line.erase(0, profIDLen);
 
@@ -239,3 +246,32 @@ void Professor::userInputData()
 	} while (input != "q");
 }
 
+void Professor::printClassData()
+{
+	ifstream inFile;
+	inFile.open(textFile);
+	string line;
+	int classroomIDLen;
+	getline(inFile, line);
+	while (line != "")
+	{
+		classroomIDLen = line.length() + 1;
+		cout << "Professor ID:\t\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Professor Name:\t\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		if (line == "-1")
+			line = "N/A";
+		cout << "Professor Lunch:\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Professor Expertise:\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Professor Courses:\t" << line << endl << endl;
+		getline(inFile, line);
+	}
+	inFile.close();
+}

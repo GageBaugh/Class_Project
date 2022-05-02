@@ -72,29 +72,35 @@ LinkedList<string> Classroom::getCourses()
 
 void Classroom::storeClass()
 {
-	ifstream inFile;
-	inFile.open(textFile);
-	stringstream oldData;
-	oldData << inFile.rdbuf();
-	inFile.close();
-
-	ofstream outFile;
-	outFile.open(textFile);
-
-	outFile << oldData.str();
-	outFile << getClassroomID() << endl;
-	outFile << getClassroomID() << " " << getClassroomType() << endl;
-	outFile << getClassroomID() << " " << getBuilding() << endl;
-	outFile << getClassroomID() << " " << getClassroomCap() << endl << getClassroomID() << " ";
-	
-	int length = classroomCourses.getSize();
-	for (int i = 1; i <= length; i++)
+	if (classroomID != "")
 	{
-		outFile << classroomCourses.getItem(i) << "|";
-	}
-	outFile << endl;
+		deleteClass(classroomID);
+		ifstream inFile;
+		inFile.open(textFile);
+		stringstream oldData;
+		oldData << inFile.rdbuf();
+		inFile.close();
 
-	outFile.close();
+		ofstream outFile;
+		outFile.open(textFile);
+
+		outFile << oldData.str();
+		outFile << getClassroomID() << endl;
+		outFile << getClassroomID() << " " << getClassroomType() << endl;
+		outFile << getClassroomID() << " " << getBuilding() << endl;
+		outFile << getClassroomID() << " " << getClassroomCap() << endl << getClassroomID() << " ";
+
+		int length = classroomCourses.getSize();
+		for (int i = 1; i <= length; i++)
+		{
+			outFile << classroomCourses.getItem(i) << "|";
+		}
+		outFile << endl;
+
+		outFile.close();
+	}
+	else
+		cout << "Error class has no id" << endl;
 };
 
 void Classroom::extractClass(string classroomID_)
@@ -197,4 +203,32 @@ void Classroom::userInputData()
 	getline(cin, input);
 	setClassroomType(input);
 
+}
+
+void Classroom::printClassData()
+{
+	ifstream inFile;
+	inFile.open(textFile);
+	string line;
+	int classroomIDLen;
+	getline(inFile, line);
+	while (line != "")
+	{
+		classroomIDLen = line.length() + 1;
+		cout << "Classroom ID:\t\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Classroom Type:\t\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Classroom Building:\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Classroom Cap:\t\t" << line << endl;
+		getline(inFile, line);
+		line.erase(0, classroomIDLen);
+		cout << "Classroom Courses:\t" << line << endl << endl;
+		getline(inFile, line);
+	}
+	inFile.close();
 }
